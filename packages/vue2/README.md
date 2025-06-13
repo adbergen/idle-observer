@@ -1,79 +1,40 @@
-# @idle-observer/vue2
+# IdleObserver Vue 2
 
-Vue 2 Composition API wrapper for [`idle-observer`](https://www.npmjs.com/package/idle-observer).
+Vue 2 integration for the robust idle-observer core. Detects user idleness in your Vue 2 apps, even with browser timer throttling.
 
-Provides seamless integration for detecting user idle and active states in Vue 2 applications.
+## Features
+- Timestamp-based idle detection (robust against timer throttling)
+- All core options: `onIdle`, `onActive`, `onIdleWarning`, `activityEvents`, `idleWarningDuration`
+- Pause, resume, reset, destroy methods
+- `isIdle` and `isUserIdle` state
+- Works with both Options API and Composition API
 
 ## Installation
-
-First, make sure your Vue 2 project is using the Composition API plugin:
-
-```bash
-npm install @vue/composition-api
+```sh
+npm install idle-observer
 ```
 
-Then install the wrapper:
-```bash
-npm install @idle-observer/vue2
-# or
-pnpm add @idle-observer/vue2
-```
-
-## Usage
-
-### With Composition API
-
-#### 1. Register the Composition API (if not already)
-
-In your main entry file (e.g., `main.js` or `main.ts`):
-
-```ts
-import Vue from 'vue'
-import VueCompositionAPI from '@vue/composition-api'
-
-Vue.use(VueCompositionAPI)
-```
-
-#### 2. Import and use the hook
-
-```ts
-import { useIdleObserver } from '@idle-observer/vue2'
-
-export default {
-  setup() {
-    const { isIdle } = useIdleObserver({
-      timeout: 5 * 60 * 1000 // 5 minutes
-    })
-
-    return { isIdle }
-  }
-}
-```
-
-#### 3. Reactively respond to idle state
-
-```html
-<template>
-  <div>
-    <p v-if="isIdle">You’ve been idle.</p>
-    <p v-else>You're active!</p>
-  </div>
-</template>
-```
-
-### With Options API (No Composition API required)
-```ts
-import { createIdleObserver } from '@idle-observer/vue2'
+## Options API Usage
+```js
+import { createIdleObserver } from 'idle-observer/vue2'
 
 export default {
   data() {
     return {
       isIdle: false,
-      lastActive: null
+      lastActive: new Date(),
+      isUserIdle: false
     }
   },
   mounted() {
-    createIdleObserver(this, 5 * 60 * 1000)
+    createIdleObserver(this, {
+      timeout: 60000,
+      onIdle: () => { this.isIdle = true },
+      onActive: () => { this.isIdle = false },
+      onIdleWarning: () => { /* ... */ },
+      activityEvents: ['mousemove', 'keydown'],
+      idleWarningDuration: 10000
+    })
   },
   beforeDestroy() {
     this._idleObserver?.destroy()
@@ -81,40 +42,25 @@ export default {
 }
 ```
 
-## API
+## Composition API Usage
+```js
+import { useIdleObserver } from 'idle-observer/vue2'
 
-### `useIdleObserver(options)`
-
-A Composition API hook that observes user activity and detects idleness.
-
-#### Parameters
-
-| Option    | Type     | Required | Description                                |
-|-----------|----------|----------|--------------------------------------------|
-| `timeout` | `number` | Yes      | Idle time in milliseconds before triggering. |
-
-#### Returns
-
-An object with the following reactive values:
-
-| Property   | Type      | Description                         |
-|------------|-----------|-------------------------------------|
-| `isIdle`   | `boolean` | `true` when the user is idle.       |
-| `lastActive` | `Date`  | The timestamp of the last activity. |
-
-#### Example
-
-```ts
-const { isIdle, lastActive } = useIdleObserver({ timeout: 300000 })
+export default {
+  setup() {
+    const { isIdle, isUserIdle, pause, resume, reset, destroy } = useIdleObserver({
+      timeout: 60000,
+      onIdle: () => { /* ... */ },
+      onActive: () => { /* ... */ },
+      onIdleWarning: () => { /* ... */ },
+      activityEvents: ['mousemove', 'keydown'],
+      idleWarningDuration: 10000
+    })
+    return { isIdle, isUserIdle, pause, resume, reset, destroy }
+  }
+}
 ```
 
-## License
-
-MIT © [Anthony Bergen](https://github.com/adbergen)
-
-
-## Related Packages
-
-- [`@idle-observer/vue3`](https://www.npmjs.com/package/@idle-observer/vue3) – Vue 3 Composition API wrapper
-- [`idle-observer`](https://www.npmjs.com/package/idle-observer) – Core library for tracking user idle and active states
+## API
+See [core README](../core/README.md) for full option and method details.
 
