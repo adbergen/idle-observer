@@ -6,51 +6,52 @@ type IdleOptions = {
 
 export class IdleObserver {
   private timeout: number
-  private timerId: ReturnType<typeof setTimeout> | null = null
   private onIdle?: () => void
   private onActive?: () => void
+  private lastActive: number
   private isIdle = false
+  private checkIntervalId: ReturnType<typeof setInterval> | null = null
 
   constructor({ timeout, onIdle, onActive }: IdleOptions) {
     this.timeout = timeout
     this.onIdle = onIdle
     this.onActive = onActive
+    this.lastActive = Date.now()
     this.init()
   }
 
   private init() {
-    this.resetTimer()
     const events = ['mousemove', 'keydown', 'mousedown', 'touchstart']
     for (const evt of events) {
       window.addEventListener(evt, this.handleUserActivity)
     }
+
     document.addEventListener('visibilitychange', this.handleVisibilityChange)
+
+    this.checkIntervalId = setInterval(this.checkIdleState, 1000) // Check every second
   }
 
   private handleUserActivity = () => {
+    const now = Date.now()
+
     if (this.isIdle && this.onActive) this.onActive()
+
     this.isIdle = false
-    this.resetTimer()
+    this.lastActive = now
   }
 
-  private handleVisibilityChange = () => {
-    if (document.visibilityState === 'hidden') {
-      this.clearTimer()
-    } else {
-      this.resetTimer()
-    }
-  }
+private handleVisibilityChange = () => {
+  if (document.visibilityState === 'visible') this.handleUserActivity() // Treat tab focus as "activity"
+}
 
-  private resetTimer() {
-    this.clearTimer()
-    this.timerId = setTimeout(() => {
+  private checkIdleState = () => {
+    const now = Date.now()
+    const elapsed = now - this.lastActive
+
+    if (!this.isIdle && elapsed >= this.timeout) {
       this.isIdle = true
       if (this.onIdle) this.onIdle()
-    }, this.timeout)
-  }
-
-  private clearTimer() {
-    if (this.timerId) clearTimeout(this.timerId)
+    }
   }
 
   public destroy() {
@@ -59,6 +60,7 @@ export class IdleObserver {
       window.removeEventListener(evt, this.handleUserActivity)
     }
     document.removeEventListener('visibilitychange', this.handleVisibilityChange)
-    this.clearTimer()
+
+    if (this.checkIntervalId) clearInterval(this.checkIntervalId)
   }
 }
