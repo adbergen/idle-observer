@@ -1,72 +1,98 @@
 # idle-observer
 
-**Monorepo for idle-observer packages** — detect user idle and active states across core JavaScript, Vue 2, and Vue 3.
+A robust, framework-agnostic idle detection library for browsers, with official Vue 2 and Vue 3 integrations. Reliably detects user idleness even with browser timer throttling (e.g., background tabs).
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+## Features
 
----
+- Timestamp-based idle detection (robust against timer throttling)
+- Customizable activity events
+- Idle warning callback (`onIdleWarning`)
+- Pause, resume, reset, destroy methods
+- `isUserIdle` getter
+- Vue 2 and Vue 3 composables and wrappers
+- Fully tested and documented
 
-## 📦 Packages
+## Packages
 
-| Package                            | Description                                      |
-|------------------------------------|--------------------------------------------------|
-| [`idle-observer`](https://www.npmjs.com/package/idle-observer)           | Core utility for detecting user idle/active states |
-| [`@idle-observer/vue2`](https://www.npmjs.com/package/@idle-observer/vue2) | Vue 2 wrapper (supports Composition + Options API) |
-| [`@idle-observer/vue3`](https://www.npmjs.com/package/@idle-observer/vue3) | Vue 3 Composition API wrapper                    |
+### Core
 
----
+- Location: `packages/core`
+- See [core/README.md](./packages/core/README.md) for full API and usage.
 
-## 🧠 Features
+### Vue 2
 
-- ⚡ Lightweight, zero-dependency core
-- 🔁 Reactivity support for Vue 2 & Vue 3
-- 📦 TypeScript support across all packages
-- 🧪 Unified test setup with Vitest
-- 🧹 Built-in `.destroy()` cleanup
+- Location: `packages/vue2`
+- Options API and Composition API support
+- See [vue2/README.md](./packages/vue2/README.md) for full API and usage.
 
----
+### Vue 3
 
-## 🛠 Development
+- Location: `packages/vue3`
+- Composition API support
+- See [vue3/README.md](./packages/vue3/README.md) for full API and usage.
 
-### Install dependencies:
+## Quick Example (Core)
 
-```bash
-pnpm install
+```ts
+import { IdleObserver } from 'idle-observer'
+
+const observer = new IdleObserver({
+  timeout: 60000, // 1 minute
+  onIdle: () => console.log('User is idle!'),
+  onActive: () => console.log('User is active!'),
+  onIdleWarning: () => console.log('User will be idle soon!'),
+  activityEvents: ['mousemove', 'keydown', 'mousedown', 'touchstart'],
+  idleWarningDuration: 10000 // Warn 10s before idle
+})
+
+observer.pause()
+observer.resume()
+observer.reset()
+observer.destroy()
+console.log(observer.isUserIdle)
 ```
 
-### Build all packages:
+## Quick Example (Vue 3)
 
-```bash
-pnpm build
+```js
+import { useIdleObserver } from 'idle-observer/vue3'
+
+export default {
+  setup() {
+    const { isIdle, isUserIdle, pause, resume, reset, destroy } = useIdleObserver({
+      timeout: 60000,
+      onIdle: () => { /* ... */ },
+      onActive: () => { /* ... */ },
+      onIdleWarning: () => { /* ... */ },
+      activityEvents: ['mousemove', 'keydown'],
+      idleWarningDuration: 10000
+    })
+    return { isIdle, isUserIdle, pause, resume, reset, destroy }
+  }
+}
 ```
 
-### Run tests across all packages:
+## Quick Example (Vue 2)
 
-```bash
-pnpm test
+```js
+import { useIdleObserver } from 'idle-observer/vue2'
+
+export default {
+  setup() {
+    const { isIdle, isUserIdle, pause, resume, reset, destroy } = useIdleObserver({
+      timeout: 60000,
+      onIdle: () => { /* ... */ },
+      onActive: () => { /* ... */ },
+      onIdleWarning: () => { /* ... */ },
+      activityEvents: ['mousemove', 'keydown'],
+      idleWarningDuration: 10000
+    })
+    return { isIdle, isUserIdle, pause, resume, reset, destroy }
+  }
+}
 ```
 
----
+## Documentation
 
-## 🧪 Testing
-
-This project uses [Vitest](https://vitest.dev/). Run tests with:
-
-```bash
-npm run test
-```
-
----
-
-## 💡 Use Cases
-
-- Auto-logout after inactivity  
-- Inactivity modals or countdowns  
-- Analytics triggers for user engagement  
-- Save energy by disabling heavy UI when idle
-
----
-
-## 📘 License
-
-MIT © [Anthony Bergen](https://github.com/adbergen)
+- See each package's README for full API and advanced usage.
+- All packages are fully aligned and tested as of June 2025.
