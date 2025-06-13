@@ -27,6 +27,7 @@ export function createIdleObserver(context: IdleObserverContext, options: IdleOb
     onIdle: (event?: Event) => {
       context.isIdle = true
       context.lastActive = new Date()
+      // Always update isUserIdle for reactivity
       context.isUserIdle = observer.isUserIdle
       if (options.onIdle) options.onIdle(event)
     },
@@ -42,10 +43,23 @@ export function createIdleObserver(context: IdleObserverContext, options: IdleOb
   })
 
   context._idleObserver = observer
-  context.pauseIdleObserver = () => observer.pause()
-  context.resumeIdleObserver = () => observer.resume()
-  context.resetIdleObserver = (event?: Event) => observer.reset(event)
-  context.destroyIdleObserver = () => observer.destroy()
+  context.pauseIdleObserver = () => {
+    observer.pause()
+    context.isUserIdle = observer.isUserIdle
+  }
+  context.resumeIdleObserver = () => {
+    observer.resume()
+    context.isUserIdle = observer.isUserIdle
+  }
+  context.resetIdleObserver = (event?: Event) => {
+    observer.reset(event)
+    context.isUserIdle = observer.isUserIdle
+  }
+  context.destroyIdleObserver = () => {
+    observer.destroy()
+    context.isUserIdle = observer.isUserIdle
+  }
+  // Keep the property definition for compatibility, but always update the data property above
   Object.defineProperty(context, 'isUserIdle', {
     get: () => observer.isUserIdle,
     configurable: true,
