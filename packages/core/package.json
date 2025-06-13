@@ -1,6 +1,6 @@
 {
   "name": "@idle-observer/core",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Lightweight, zero-dependency JavaScript utility for detecting user idle and active states via DOM events and visibility tracking.",
   "author": "Anthony Bergen <anthonydbergen@gmail.com>",
   "license": "MIT",
