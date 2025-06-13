@@ -1,6 +1,6 @@
 {
   "name": "@idle-observer/vue3",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Vue 3 wrapper for idle-observer using Composition API.",
   "author": "Anthony Bergen <anthonydbergen@gmail.com>",
   "license": "MIT",
