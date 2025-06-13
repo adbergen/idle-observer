@@ -1,5 +1,5 @@
 {
-  "name": "idle-observer",
+  "name": "@idle-observer/core",
   "version": "0.1.0",
   "description": "Lightweight, zero-dependency JavaScript utility for detecting user idle and active states via DOM events and visibility tracking.",
   "author": "Anthony Bergen <anthonydbergen@gmail.com>",
