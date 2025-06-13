@@ -1,0 +1,39 @@
+{
+  "name": "idle-observer",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.15.2",
+  "description": "Monorepo for idle-observer and its Vue integrations",
+  "author": "Anthony Bergen <anthonydbergen@gmail.com> (https://github.com/adbergen)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adbergen/idle-observer"
+  },
+  "workspaces": [
+    "packages/core",
+    "packages/vue2",
+    "packages/vue3"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "clean": "turbo run clean",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0",
+    "tsup": "^8.5.0",
+    "turbo": "^2.5.4",
+    "typescript": "^5.4.5",
+    "vitest": "^3.2.3"
+  },
+  "keywords": [
+    "idle",
+    "monorepo",
+    "vue",
+    "typescript",
+    "user engagement",
+    "user activity"
+  ]
+}

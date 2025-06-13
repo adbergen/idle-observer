@@ -1,0 +1,44 @@
+{
+  "name": "idle-observer",
+  "version": "1.0.0",
+  "description": "Lightweight, zero-dependency JavaScript utility for detecting user idle and active states via DOM events and visibility tracking.",
+  "author": "Anthony Bergen <anthonydbergen@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "dev": "vitest watch",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "idle",
+    "idle detection",
+    "user idle",
+    "idle timeout",
+    "idle observer",
+    "inactivity",
+    "inactivity detection",
+    "user activity",
+    "auto logout",
+    "session timeout",
+    "visibility change",
+    "javascript utility",
+    "typescript",
+    "browser events",
+    "user engagement"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "@idle-observer/vue2",
+  "version": "0.1.0",
+  "description": "Vue 2 Composition API wrapper for idle-observer.",
+  "author": "Anthony Bergen <anthonydbergen@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "dev": "vitest watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "vue": "2.6.11",
+    "@vue/composition-api": "^1.7.2",
+    "idle-observer": "workspace:*"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "1.3.6",
+    "vue-template-compiler": "2.6.11"
+  },
+  "keywords": [
+    "vue",
+    "vue2",
+    "composition-api",
+    "idle observer",
+    "user idle",
+    "auto logout"
+  ]
+}

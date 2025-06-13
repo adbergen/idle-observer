@@ -1,0 +1,42 @@
+{
+  "name": "@idle-observer/vue3",
+  "version": "1.0.0",
+  "description": "Vue 3 wrapper for idle-observer using Composition API.",
+  "author": "Anthony Bergen <anthonydbergen@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "dev": "vitest watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "idle-observer": "workspace:*"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "2.4.0-alpha.2",
+    "vue": "3.5.16"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "composition-api",
+    "idle observer",
+    "user idle",
+    "auto logout"
+  ]
+}
