@@ -76,7 +76,12 @@ export class IdleObserver {
       } else {
         // If not enough time has passed (timer was throttled), restart timer for remaining time
         const remaining = this.timeout - (Date.now() - this.lastActive)
-        this.resetTimer(event)
+        this.timerId = setTimeout(() => {
+          if (Date.now() - this.lastActive >= this.timeout) {
+            this.isIdle = true
+            if (this.onIdle) this.onIdle(event)
+          }
+        }, remaining)
       }
     }, this.timeout)
   }
