@@ -1,64 +1,49 @@
 # idle-observer
 
-**Lightweight, zero-dependency JavaScript utility for detecting user idle and active states via DOM events and visibility tracking.**
+**Monorepo for idle-observer packages** — detect user idle and active states across core JavaScript, Vue 2, and Vue 3.
 
-[![npm version](https://img.shields.io/npm/v/idle-observer.svg)](https://www.npmjs.com/package/idle-observer)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ---
 
-## ✨ Features
+## 📦 Packages
 
-- ⚡ Lightweight — zero dependencies
-- 🖱️ Detects inactivity via keyboard, mouse, touch, and visibility changes
-- 🔁 Triggers `onIdle` and `onActive` callbacks
-- 🧹 Includes cleanup via `.destroy()`
-- 📦 TypeScript support out of the box
+| Package                            | Description                                      |
+|------------------------------------|--------------------------------------------------|
+| [`idle-observer`](https://www.npmjs.com/package/idle-observer)           | Core utility for detecting user idle/active states |
+| [`@idle-observer/vue2`](https://www.npmjs.com/package/@idle-observer/vue2) | Vue 2 wrapper (supports Composition + Options API) |
+| [`@idle-observer/vue3`](https://www.npmjs.com/package/@idle-observer/vue3) | Vue 3 Composition API wrapper                    |
 
 ---
 
-## 📦 Installation
+## 🧠 Features
+
+- ⚡ Lightweight, zero-dependency core
+- 🔁 Reactivity support for Vue 2 & Vue 3
+- 📦 TypeScript support across all packages
+- 🧪 Unified test setup with Vitest
+- 🧹 Built-in `.destroy()` cleanup
+
+---
+
+## 🛠 Development
+
+### Install dependencies:
 
 ```bash
-npm install idle-observer
+pnpm install
 ```
 
----
+### Build all packages:
 
-## 🧠 Usage
-
-```ts
-import { IdleObserver } from 'idle-observer'
-
-const observer = new IdleObserver({
-  timeout: 5 * 60 * 1000, // 5 minutes
-  onIdle: () => {
-    console.log('User is idle.')
-  },
-  onActive: () => {
-    console.log('User is active again.')
-  }
-})
+```bash
+pnpm build
 ```
 
----
+### Run tests across all packages:
 
-## 🔧 Options
-
-| Option     | Type         | Required | Description                                            |
-|------------|--------------|----------|--------------------------------------------------------|
-| `timeout`  | `number`     | ✅ Yes   | Inactivity duration (ms) before `onIdle` is triggered |
-| `onIdle`   | `() => void` | No       | Called when user becomes idle                          |
-| `onActive` | `() => void` | No       | Called when user becomes active again after idle       |
-
----
-
-## 🧼 Cleanup
-
-To stop tracking and remove listeners:
-
-```ts
-observer.destroy()
+```bash
+pnpm test
 ```
 
 ---
