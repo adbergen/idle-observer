@@ -28,8 +28,22 @@ const observer = new IdleObserver({
   },
   onActive: () => {
     console.log('User is active')
-  }
+  },
+  onIdleWarning: () => {
+    console.log('User will be idle soon!')
+  },
+  activityEvents: ['mousemove', 'keydown', 'mousedown', 'touchstart'],
+  idleWarningDuration: 10 * 1000 // Warn 10s before idle
 })
+
+// Pause/resume/reset/destroy
+observer.pause()
+observer.resume()
+observer.reset()
+observer.destroy()
+
+// Check idle state
+console.log(observer.isUserIdle)
 
 ```
 
@@ -71,6 +85,9 @@ A class that observes user activity and detects idleness.
 | `timeout`  | `number`    | ✅ Yes   | Idle time in milliseconds before triggering.     |
 | `onIdle`   | `() => void`| ❌ No    | Callback when user becomes idle.                 |
 | `onActive` | `() => void`| ❌ No    | Callback when user becomes active again.         |
+| `onIdleWarning` | `() => void`| ❌ No | Callback when user is about to become idle.     |
+| `activityEvents` | `string[]`| ❌ No | Array of DOM events to track as activity.       |
+| `idleWarningDuration` | `number`| ❌ No | Milliseconds before idleness to trigger warning.|
 
 #### Returns
 
@@ -87,7 +104,10 @@ An instance with the following method:
 const observer = new IdleObserver({
   timeout: 300000,
   onIdle: () => console.log('Idle'),
-  onActive: () => console.log('Active')
+  onActive: () => console.log('Active'),
+  onIdleWarning: () => console.log('About to be idle'),
+  activityEvents: ['mousemove', 'keydown'],
+  idleWarningDuration: 10000
 })
 
 // Later, to clean up
